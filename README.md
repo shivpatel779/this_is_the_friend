@@ -9,9 +9,11 @@ First up, a few assumptions
 * you have a User model either home grown or (as in my case) [devise gem](https://github.com/plataformatec/devise)
 * you have a current_user method to find the current user (devise provides one by default)
 
-Ok, lets begin
+Ok, let's begin
 
-I’m going to skip using rails amazing scaffolds, they are a little too verbose for the simplicity of this, but feel free to use them if you want:
+I’m going to skip using rails amazing scaffolds, they are a little too verbose for the simplicity of this, but feel free to use them if you want.
+
+### Models
 
 ```terminal
 $rails generate model Friendship user_id:integer friend_id:integer accepted:boolean
@@ -62,13 +64,23 @@ And here is the User model (minus the devise stuff which you should leave in the
 	has_many :pending_friends, -> { where(friendships: { accepted: false}) }, through: :friendships, source: :friend
 	has_many :requested_friendships, -> { where(friendships: { accepted: false}) }, through: :received_friendships, source: :user
 
+# to call all your friends
+
 	def friends
 	  active_friends | received_friends
 	end
 
+# to call your pending sent or received
+
+	def pending
+		pending_friends | requested_friendships
+	end
+
 ```
 
-See where we told Rails that we have the friend_id as a foreign key? That’s us giving rails a gentle nudge to work out the two users who are in the friendship. That friends method at the end is a succinct way to call the method in the app and bring back friends.
+See where we told Rails that we have the friend_id as a foreign key? That’s us giving rails a gentle nudge to work out the two users who are in the friendship.
+
+### Controller
 
 So, we need a controller to work it’s magic with this amazing model, then we need view/’s
 
@@ -121,6 +133,8 @@ Now for the controller itself. We need a way to find the friendship (@friendship
 	end
 
 ```
+
+### Views
 
 Finally the views. You'll have a specific view in mind, so this is a very general view. Points to note, the way we post our requests, the layouts excluding current_user etc, and the list of requested. All of these may be handy for you.
 
