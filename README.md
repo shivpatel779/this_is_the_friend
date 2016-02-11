@@ -1,5 +1,3 @@
-Blog post - Facebook Style Friendship Model for Rails
-
 There are several articles about how to do a friendship model for rails. Many of them are focussed on the twitter style following model, and some use gems, but I really wanted a straightforward Facebook Style Model. One where you request a friend and they accept the request.
 
 The following will walk through the quickest way I’ve discovered so far.
@@ -154,7 +152,7 @@ Finally the views. You'll have a specific view in mind, so this is a very genera
 </ul>
 
 ```
-The above views could obviously use styling and better presentation, but they link_to are the main part to understand.
+The above views could obviously use styling and better presentation, but the link_to are the main part to understand.
 
 
 Hope this helps clarify some things and makes it easy to put together.
